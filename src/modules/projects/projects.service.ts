@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProjectRequestDto } from 'src/modules/projects/dtos/projects.dto';
+import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/projects.dto';
 
 @Injectable()
 export class ProjectsService {
