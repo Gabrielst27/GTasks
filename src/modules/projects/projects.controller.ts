@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProjectRequestDto } from 'src/modules/projects/projects.dto';
+import { ProjectRequestDto } from 'src/modules/projects/dtos/projects.dto';
 import { ProjectsService } from 'src/modules/projects/projects.service';
 
 @Controller('projects')
