@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
-import { ProjectResponseDto } from 'src/modules/projects/dtos/response/project-response.dto';
+import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { ProjectsService } from 'src/modules/projects/projects.service';
 
 @Controller({
