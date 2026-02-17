@@ -74,6 +74,8 @@ export namespace IRepository {
   }
 
   export interface Repository<Item> {
+    searchableFields: string[];
+
     findById(id: string): Promise<Item>;
     findAll(params: SearchParams): Promise<SearchResult<Item>>;
     create(item: Item): Promise<Item>;
