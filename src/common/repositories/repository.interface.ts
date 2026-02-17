@@ -73,7 +73,7 @@ export namespace IRepository {
     }
   }
 
-  interface Repository<Item> {
+  export interface Repository<Item> {
     findById(id: string): Promise<Item>;
     findAll(params: SearchParams): Promise<SearchResult<Item>>;
     create(item: Item): Promise<Item>;
