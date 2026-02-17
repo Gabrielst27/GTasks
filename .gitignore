@@ -13,7 +13,11 @@ yarn-error.log*
 lerna-debug.log*
 
 # DB
-prisma*
+prisma
+prisma.config.ts
+!src/generated/prisma
+!src/modules/shared/prisma
+!src/modules/projects/repositories/prisma
 
 # OS
 .DS_Store
@@ -57,5 +61,3 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-/generated/prisma
