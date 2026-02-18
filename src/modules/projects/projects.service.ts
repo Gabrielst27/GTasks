@@ -7,6 +7,7 @@ import { IProjectRepository } from 'src/modules/projects/repositories/projects.r
 import { CreateProjectUseCase } from 'src/modules/projects/usecases/create.usecase';
 import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.usecase';
 import { FindProjectByIdUseCase } from 'src/modules/projects/usecases/find-by-id.usecase';
+import { UpdateProjectUseCase } from 'src/modules/projects/usecases/update.usecase';
 
 @Injectable()
 export class ProjectsService {
@@ -32,6 +33,10 @@ export class ProjectsService {
     return await usecase.execute(data);
   }
 
-  update(id: string, data: ProjectRequestDto) {}
+  async update(id: string, data: ProjectRequestDto) {
+    const usecase = new UpdateProjectUseCase.UseCase(this.repository);
+    return await usecase.execute({ id, ...data });
+  }
+
   delete(id: string) {}
 }

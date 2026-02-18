@@ -51,7 +51,7 @@ export class ProjectsController {
     return this.projectsService.create(data);
   }
 
-  @Put()
+  @Put(':id')
   @ApiResponse({
     type: ProjectResponseDto.Response,
   })

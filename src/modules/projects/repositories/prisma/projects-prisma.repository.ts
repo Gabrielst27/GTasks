@@ -67,7 +67,6 @@ export class ProjectsPrismaRepository
                       },
               })),
             };
-            console.log(args.where);
             args.take = take;
             args.skip = skip;
             return query(args);
@@ -100,9 +99,15 @@ export class ProjectsPrismaRepository
     return item;
   }
 
-  update(id: string, item: ProjectEntity): Promise<ProjectEntity> {
-    throw new Error('Method not implemented.');
+  async update(id: string, item: ProjectEntity): Promise<ProjectEntity> {
+    const model = ProjectPrismaModelMapper.toModel(item);
+    await this.prismaService.project.update({
+      where: { id },
+      data: model,
+    });
+    return item;
   }
+
   delete(id: string): Promise<ProjectEntity> {
     throw new Error('Method not implemented.');
   }

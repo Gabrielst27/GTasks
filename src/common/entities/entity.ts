@@ -7,13 +7,21 @@ export type EntityProps = {
 
 export abstract class Entity<Props extends EntityProps> {
   private readonly _id: string;
-  private readonly _props: Props;
+  private _props: Props;
 
   constructor(props: Props, id?: string) {
     this._id = id || v4();
     props.createdAt = props.createdAt || new Date();
     props.updatedAt = props.updatedAt || new Date();
     this._props = props;
+  }
+
+  updateProps(props: Props) {
+    this._props = {
+      ...this._props,
+      ...props,
+      updatedAt: new Date(),
+    };
   }
 
   toJson(): Required<{ id: string } & Props> {
