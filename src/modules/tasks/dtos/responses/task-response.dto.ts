@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
 import { TaskPriority } from 'src/modules/tasks/enums/priority';
 import { TaskStatus } from 'src/modules/tasks/enums/status';
 
@@ -27,8 +28,11 @@ export namespace TaskResponse {
     @ApiProperty({ description: 'Prioridade da tarefa' })
     priority: TaskPriority;
 
-    @ApiProperty({ description: 'Data de vencimento da tarefa' })
-    dueDate: Date;
+    @ApiProperty({
+      description: 'Data de vencimento da tarefa',
+      format: 'date-time',
+    })
+    dueDate: string;
 
     @ApiProperty({ description: 'Projeto ao qual a tarefa pertence' })
     projectId: string;
@@ -44,5 +48,17 @@ export namespace TaskResponse {
       format: 'date-time',
     })
     updatedAt: string;
+  }
+
+  export class Mapper {
+    static toResponse(entity: TaskEntity): Dto {
+      const json = entity.toJson();
+      return {
+        ...json,
+        createdAt: json.createdAt.toISOString(),
+        updatedAt: json.updatedAt.toISOString(),
+        dueDate: json.createdAt.toISOString(),
+      };
+    }
   }
 }

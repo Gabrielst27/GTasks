@@ -1,4 +1,7 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('tasks')
+@Controller({
+  version: '1',
+  path: 'tasks',
+})
 export class TasksController {}

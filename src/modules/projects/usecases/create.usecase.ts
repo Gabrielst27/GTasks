@@ -1,14 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
+import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 
 export namespace CreateProjectUseCase {
-  export type Input = {
-    name: string;
-    description?: string;
-  };
+  export type Input = ProjectRequestDto;
 
   export type Output = ProjectResponse.Dto;
 
