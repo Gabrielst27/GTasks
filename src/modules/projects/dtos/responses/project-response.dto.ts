@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
 
-export namespace ProjectResponseDto {
+export namespace ProjectResponse {
   type Props = {
     id: string;
     name: string;
@@ -10,14 +10,14 @@ export namespace ProjectResponseDto {
     updatedAt: string;
   };
 
-  export class Response implements Props {
+  export class Dto implements Props {
     @ApiProperty({ description: 'ID do projeto' })
     id: string;
 
     @ApiProperty({ description: 'Nome do projeto' })
     name: string;
 
-    @ApiProperty({ description: 'Descrição do projeto', required: false })
+    @ApiProperty({ description: 'Descrição do projeto' })
     description: string;
 
     @ApiProperty({ format: 'date-time' })
@@ -26,7 +26,7 @@ export namespace ProjectResponseDto {
     @ApiProperty({ format: 'date-time' })
     updatedAt: string;
 
-    constructor(props: Response) {
+    constructor(props: Dto) {
       Object.assign(this, {
         ...props,
       });
@@ -34,9 +34,9 @@ export namespace ProjectResponseDto {
   }
 
   export class Mapper {
-    static toResponse(entity: ProjectEntity): Response {
+    static toResponse(entity: ProjectEntity): Dto {
       const json = entity.toJson();
-      const response = new Response({
+      const response = new Dto({
         ...json,
         createdAt: json.createdAt.toISOString(),
         updatedAt: json.updatedAt.toISOString(),

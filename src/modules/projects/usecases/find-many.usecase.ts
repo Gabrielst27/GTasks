@@ -4,7 +4,7 @@ import {
   AppQuery,
   AppQueryProps,
 } from 'src/common/utils/app-queries/app-query';
-import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-response.dto';
+import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 
@@ -13,7 +13,7 @@ export namespace FindManyProjectsUseCase {
     IRepository.SearchProps & { queries: AppQueryProps[] }
   >;
 
-  export type Output = IRepository.SearchResult<ProjectResponseDto.Response>;
+  export type Output = IRepository.SearchResult<ProjectResponse.Dto>;
 
   class UseCase implements IUseCase<Input, Output> {
     constructor(private repository: IProjectRepository) {}
@@ -34,9 +34,9 @@ export namespace FindManyProjectsUseCase {
 
     private convertEntitiesToResponses(
       entities: ProjectEntity[],
-    ): ProjectResponseDto.Response[] {
+    ): ProjectResponse.Dto[] {
       return entities.map((entity) =>
-        ProjectResponseDto.Mapper.toResponse(entity),
+        ProjectResponse.Mapper.toResponse(entity),
       );
     }
   }

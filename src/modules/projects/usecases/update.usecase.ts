@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
-import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-response.dto';
+import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 
 export namespace UpdateProjectUseCase {
@@ -10,12 +10,12 @@ export namespace UpdateProjectUseCase {
     description?: string;
   };
 
-  export type Output = ProjectResponseDto.Response;
+  export type Output = ProjectResponse.Dto;
 
   export class UseCase implements IUseCase<Input, Output> {
     constructor(private repository: IProjectRepository) {}
 
-    async execute(input: Input): Promise<ProjectResponseDto.Response> {
+    async execute(input: Input): Promise<ProjectResponse.Dto> {
       const { id, name, description } = input;
       if (!id) {
         throw new BadRequestException('Impossível buscar o dado');
@@ -26,7 +26,7 @@ export namespace UpdateProjectUseCase {
       const project = await this.repository.findById(id);
       const entity = project.updateProps({ name, description });
       const result = await this.repository.update(id, entity);
-      return ProjectResponseDto.Mapper.toResponse(result);
+      return ProjectResponse.Mapper.toResponse(result);
     }
   }
 }

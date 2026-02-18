@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 
-export abstract class BaseRepository<Entity> {
+export abstract class BaseRepository {
   protected abstract searchableFields: string[];
   protected abstract sortableFields: string[];
 

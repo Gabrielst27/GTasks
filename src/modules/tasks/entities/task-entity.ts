@@ -13,9 +13,19 @@ export type TaskEntityProps = {
 
 export class TaskEntity extends Entity<TaskEntityProps> {
   constructor(props: TaskEntityProps, id?: string) {
+    //TODO: implement task entity validation
     props.description = props.description ?? '';
     props.status = TaskStatus.TO_DO;
     props.priority = TaskPriority.LOW;
     super(props, id);
+  }
+
+  updateProps(partialProps: Partial<TaskEntityProps>): void {
+    //TODO: implement task entity validation
+    const props = {
+      ...this.props,
+      ...partialProps,
+    };
+    super.updateProps(props);
   }
 }

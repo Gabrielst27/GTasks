@@ -10,7 +10,7 @@ import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
 
 @Injectable()
 export class ProjectsPrismaRepository
-  extends BaseRepository<ProjectEntity>
+  extends BaseRepository
   implements IProjectRepository
 {
   protected searchableFields: string[] = ['createdAt', 'updatedAt', 'name'];
