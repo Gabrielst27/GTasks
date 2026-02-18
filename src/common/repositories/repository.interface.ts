@@ -20,7 +20,7 @@ export namespace IRepository {
   }
 
   export type SearchProps = {
-    queries: Query[];
+    queries?: Query[];
     page?: number;
     perPage?: number;
     sort?: string;
@@ -36,7 +36,7 @@ export namespace IRepository {
 
     constructor(props: SearchProps) {
       //TODO: Create search params validation
-      this.queries = props.queries;
+      this.queries = props.queries || [];
       this.page = props.page || 0;
       this.perPage = props.perPage || 15;
       this.sort = props.sort || 'createdAt';
@@ -47,12 +47,14 @@ export namespace IRepository {
   type SearchResultProps<Item> = {
     items: Item[];
     total: number;
-    params: SearchParams;
+    page: number;
+    perPage: number;
+    sort: string;
+    sortDir: 'asc' | 'desc';
   };
 
   export class SearchResult<Item> {
     readonly items: Item[];
-    readonly queries: Query[];
     readonly total: number;
     readonly page: number;
     readonly perPage: number;
@@ -63,21 +65,18 @@ export namespace IRepository {
     constructor(props: SearchResultProps<Item>) {
       //TODO: Create search result validation
       this.items = props.items;
-      this.queries = props.params.queries;
       this.total = props.total;
-      this.page = props.params.page;
-      this.perPage = props.params.perPage;
-      this.sort = props.params.sort;
-      this.sortDir = props.params.sortDir;
-      this.lastPage = props.total / props.params.perPage - 1;
+      this.page = props.page;
+      this.perPage = props.perPage;
+      this.sort = props.sort;
+      this.sortDir = props.sortDir;
+      this.lastPage = props.total / props.perPage - 1;
     }
   }
 
   export interface Repository<Item> {
-    searchableFields: string[];
-
     findById(id: string): Promise<Item>;
-    findAll(params: SearchParams): Promise<SearchResult<Item>>;
+    findMany(params: SearchParams): Promise<SearchResult<Item>>;
     create(item: Item): Promise<Item>;
     update(id: string, item: Item): Promise<Item>;
     delete(id: string): Promise<Item>;

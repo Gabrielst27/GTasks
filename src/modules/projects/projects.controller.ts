@@ -9,8 +9,10 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { ProjectsService } from 'src/modules/projects/projects.service';
@@ -24,15 +26,18 @@ export class ProjectsController {
 
   @Get()
   @ApiResponse({
-    type: [ProjectResponseDto],
+    type: [ProjectResponseDto.Response],
   })
-  findAll() {
-    return this.projectsService.findAll();
+  findAll(
+    @Query() searchParams: SearchManyRequestDto.Request,
+    @Body() queries: SearchManyRequestDto.QueriesRequest,
+  ) {
+    return this.projectsService.findMany(searchParams, queries);
   }
 
   @Get(':id')
   @ApiResponse({
-    type: ProjectResponseDto,
+    type: ProjectResponseDto.Response,
   })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.projectsService.findById(id);
@@ -40,7 +45,7 @@ export class ProjectsController {
 
   @Post()
   @ApiResponse({
-    type: ProjectResponseDto,
+    type: ProjectResponseDto.Response,
   })
   create(@Body() data: ProjectRequestDto) {
     return this.projectsService.create(data);
@@ -48,7 +53,7 @@ export class ProjectsController {
 
   @Put()
   @ApiResponse({
-    type: ProjectResponseDto,
+    type: ProjectResponseDto.Response,
   })
   update(
     @Param('id', ParseUUIDPipe) id: string,
