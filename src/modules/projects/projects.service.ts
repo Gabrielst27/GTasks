@@ -5,23 +5,19 @@ import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-re
 import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 import { CreateProjectUseCase } from 'src/modules/projects/usecases/create.usecase';
-import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.usecase';
+import { FindManyProjectsUseCase } from 'src/modules/projects/usecases/find-many.usecase';
 import { FindProjectByIdUseCase } from 'src/modules/projects/usecases/find-by-id.usecase';
 import { UpdateProjectUseCase } from 'src/modules/projects/usecases/update.usecase';
+import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.usecase';
 
 @Injectable()
 export class ProjectsService {
   constructor(private repository: IProjectRepository) {}
-  async findMany(
+  async findAll(
     searchParams: SearchManyRequestDto.Request,
-    querieParams: SearchManyRequestDto.QueriesRequest,
   ): Promise<IRepository.SearchResult<ProjectResponseDto.Response>> {
-    const entityQueries =
-      querieParams.queries && querieParams.queries.length
-        ? querieParams.queries.map((query) => new IRepository.Query(query))
-        : [];
     const usecase = new FindAllProjectsUseCase.UseCase(this.repository);
-    return await usecase.execute({ ...searchParams, queries: entityQueries });
+    return await usecase.execute(searchParams);
   }
   async findById(id: string) {
     const usecase = new FindProjectByIdUseCase.UseCase(this.repository);

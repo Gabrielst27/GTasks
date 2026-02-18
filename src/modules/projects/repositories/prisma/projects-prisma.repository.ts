@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { BaseRepository } from 'src/common/repositories/repository';
 import { IRepository } from 'src/common/repositories/repository.interface';
+import { AppQuery } from 'src/common/utils/app-queries/app-query';
 import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
 import { ProjectPrismaModelMapper } from 'src/modules/projects/repositories/prisma/project-prisma-model.mapper';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
@@ -30,8 +31,9 @@ export class ProjectsPrismaRepository
   }
   async findMany(
     params: IRepository.SearchParams,
+    queries: AppQuery[],
   ): Promise<IRepository.SearchResult<ProjectEntity>> {
-    const fields = params.queries.map((query) => query.field);
+    const fields = queries.map((query) => query.field);
     super.validate(fields, params.sort);
 
     const skip = params.page * params.perPage;
@@ -43,7 +45,7 @@ export class ProjectsPrismaRepository
         project: {
           count({ model, operation, args, query }) {
             args.where = {
-              AND: params.queries.map((q) => ({
+              AND: queries.map((q) => ({
                 [q.field]:
                   q.operator === EDbOperators.EQUALS
                     ? q.value
@@ -57,7 +59,7 @@ export class ProjectsPrismaRepository
           },
           findMany({ model, operation, args, query }) {
             args.where = {
-              AND: params.queries.map((q) => ({
+              AND: queries.map((q) => ({
                 [q.field]:
                   q.operator === EDbOperators.EQUALS
                     ? q.value

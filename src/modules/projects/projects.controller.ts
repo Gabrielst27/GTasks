@@ -28,11 +28,8 @@ export class ProjectsController {
   @ApiResponse({
     type: [ProjectResponseDto.Response],
   })
-  findAll(
-    @Query() searchParams: SearchManyRequestDto.Request,
-    @Body() queries: SearchManyRequestDto.QueriesRequest,
-  ) {
-    return this.projectsService.findMany(searchParams, queries);
+  findAll(@Query() searchParams: SearchManyRequestDto.Request) {
+    return this.projectsService.findAll(searchParams);
   }
 
   @Get(':id')
