@@ -37,16 +37,47 @@ export class ProjectsPrismaRepository
     const skip = params.page * params.perPage;
     const take = params.perPage;
 
-    let filters = {};
-    for (let query of params.queries) {
-      filters = this.filter(query.field, query.operator, query.value, filters);
-    }
+    //TODO: create prisma query builder
+    const filters = this.prismaService.$extends({
+      query: {
+        project: {
+          count({ model, operation, args, query }) {
+            args.where = {
+              AND: params.queries.map((q) => ({
+                [q.field]:
+                  q.operator === EDbOperators.EQUALS
+                    ? q.value
+                    : {
+                        [ProjectPrismaModelMapper.enumToOperator(q.operator)]:
+                          q.value,
+                      },
+              })),
+            };
+            return query(args);
+          },
+          findMany({ model, operation, args, query }) {
+            args.where = {
+              AND: params.queries.map((q) => ({
+                [q.field]:
+                  q.operator === EDbOperators.EQUALS
+                    ? q.value
+                    : {
+                        [ProjectPrismaModelMapper.enumToOperator(q.operator)]:
+                          q.value,
+                      },
+              })),
+            };
+            console.log(args.where);
+            args.take = take;
+            args.skip = skip;
+            return query(args);
+          },
+        },
+      },
+    });
 
-    const total = await this.prismaService.project.count(filters);
-
-    filters = this.paginate(params.sort, params.sortDir, skip, take, filters);
-
-    const itemModels = await this.prismaService.project.findMany(filters);
+    const total = await filters.project.count();
+    const itemModels = await filters.project.findMany();
     const items = itemModels.map((model) =>
       ProjectPrismaModelMapper.toEntity(model),
     );
@@ -60,6 +91,7 @@ export class ProjectsPrismaRepository
       sortDir: params.sortDir,
     });
   }
+
   async create(item: ProjectEntity): Promise<ProjectEntity> {
     const model = ProjectPrismaModelMapper.toModel(item);
     await this.prismaService.project.create({
@@ -72,41 +104,5 @@ export class ProjectsPrismaRepository
   }
   delete(id: string): Promise<ProjectEntity> {
     throw new Error('Method not implemented.');
-  }
-
-  private paginate(
-    orderByField: string,
-    orderByDir: string,
-    skip: number,
-    take: number,
-    options?: any,
-  ) {
-    return {
-      ...(options || {}),
-      orderBy: {
-        [orderByField]: orderByDir,
-      },
-      skip,
-      take,
-    };
-  }
-
-  private filter(
-    field: string,
-    operator: EDbOperators,
-    value: string,
-    options?: any,
-  ) {
-    const existingConditions = options?.where?.[field] || {};
-    return {
-      ...(options || {}),
-      where: {
-        ...(options?.where || {}),
-        [field]: {
-          ...existingConditions,
-          [operator]: value,
-        },
-      },
-    };
   }
 }
