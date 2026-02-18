@@ -25,8 +25,8 @@ export namespace UpdateProjectUseCase {
       }
       const project = await this.repository.findById(id);
       const entity = project.updateProps({ name, description });
-      const result = this.repository.update(id, entity);
-      return ProjectResponseDto.Mapper.toResponse(entity);
+      const result = await this.repository.update(id, entity);
+      return ProjectResponseDto.Mapper.toResponse(result);
     }
   }
 }
