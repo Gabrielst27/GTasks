@@ -99,6 +99,7 @@ export class ProjectsPrismaRepository
     });
     return item;
   }
+
   update(id: string, item: ProjectEntity): Promise<ProjectEntity> {
     throw new Error('Method not implemented.');
   }

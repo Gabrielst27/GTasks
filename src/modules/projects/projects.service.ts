@@ -6,6 +6,7 @@ import { ProjectResponseDto } from 'src/modules/projects/dtos/responses/project-
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 import { CreateProjectUseCase } from 'src/modules/projects/usecases/create.usecase';
 import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.usecase';
+import { FindProjectByIdUseCase } from 'src/modules/projects/usecases/find-by-id.usecase';
 
 @Injectable()
 export class ProjectsService {
@@ -21,11 +22,16 @@ export class ProjectsService {
     const usecase = new FindAllProjectsUseCase.UseCase(this.repository);
     return await usecase.execute({ ...searchParams, queries: entityQueries });
   }
-  findById(id: string) {}
+  async findById(id: string) {
+    const usecase = new FindProjectByIdUseCase.UseCase(this.repository);
+    return await usecase.execute({ id });
+  }
+
   async create(data: ProjectRequestDto) {
     const usecase = new CreateProjectUseCase.UseCase(this.repository);
     return await usecase.execute(data);
   }
+
   update(id: string, data: ProjectRequestDto) {}
   delete(id: string) {}
 }
