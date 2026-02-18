@@ -37,8 +37,8 @@ export namespace IRepository {
     constructor(props: SearchProps) {
       //TODO: Create search params validation
       this.queries = props.queries || [];
-      this.page = props.page || 0;
-      this.perPage = props.perPage || 15;
+      this.page = props.page && props.page >= 0 ? props.page : 0;
+      this.perPage = props.perPage && props.perPage >= 1 ? props.perPage : 15;
       this.sort = props.sort || 'createdAt';
       this.sortDir = props.sortDir || 'desc';
     }
@@ -70,7 +70,8 @@ export namespace IRepository {
       this.perPage = props.perPage;
       this.sort = props.sort;
       this.sortDir = props.sortDir;
-      this.lastPage = props.total / props.perPage - 1;
+      //TODO: fix lastPage
+      this.lastPage = Math.floor(props.total / props.perPage);
     }
   }
 

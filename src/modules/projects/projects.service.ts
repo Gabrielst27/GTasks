@@ -12,10 +12,14 @@ export class ProjectsService {
   constructor(private repository: IProjectRepository) {}
   async findMany(
     searchParams: SearchManyRequestDto.Request,
-    queries: SearchManyRequestDto.QueriesRequest,
+    querieParams: SearchManyRequestDto.QueriesRequest,
   ): Promise<IRepository.SearchResult<ProjectResponseDto.Response>> {
+    const entityQueries =
+      querieParams.queries && querieParams.queries.length
+        ? querieParams.queries.map((query) => new IRepository.Query(query))
+        : [];
     const usecase = new FindAllProjectsUseCase.UseCase(this.repository);
-    return await usecase.execute({ ...searchParams, ...queries });
+    return await usecase.execute({ ...searchParams, queries: entityQueries });
   }
   findById(id: string) {}
   async create(data: ProjectRequestDto) {
