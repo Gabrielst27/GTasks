@@ -16,6 +16,10 @@ export abstract class Entity<Props extends EntityProps> {
     this._props = props;
   }
 
+  protected get props(): Props {
+    return this._props;
+  }
+
   updateProps(props: Props) {
     this._props = {
       ...this._props,

@@ -6,13 +6,10 @@ export type ProjectEntityProps = {
 } & EntityProps;
 
 export class ProjectEntity extends Entity<ProjectEntityProps> {
-  constructor(
-    private props: ProjectEntityProps,
-    id?: string,
-  ) {
+  constructor(props: ProjectEntityProps, id?: string) {
     //TODO: Create project entity validation
-    super(props, id);
     props.description = props.description ?? '';
+    super(props, id);
   }
 
   updateProps(partialProps: Partial<ProjectEntityProps>): ProjectEntity {
