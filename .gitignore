@@ -18,6 +18,7 @@ prisma.config.ts
 !src/generated/prisma
 !src/modules/shared/prisma
 !src/modules/projects/repositories/prisma
+!src/modules/tasks/repositories/prisma
 
 # OS
 .DS_Store
