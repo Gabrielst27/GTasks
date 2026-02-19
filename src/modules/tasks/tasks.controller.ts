@@ -27,8 +27,14 @@ export class TasksController {
     return this.service.findById(id);
   }
 
+  @Get()
+  @ApiResponse({ type: SearchResult<TaskResponse.Dto> })
+  findAll(@Query() params: SearchManyRequestDto) {
+    return this.service.findAll(params);
+  }
+
   @Get('find-by-project/:id')
-  @ApiResponse({ type: SearchResult })
+  @ApiResponse({ type: SearchResult<TaskResponse.Dto> })
   findAllByProject(
     @Param('id', ParseUUIDPipe) projectId: string,
     @Query() params: SearchManyRequestDto,

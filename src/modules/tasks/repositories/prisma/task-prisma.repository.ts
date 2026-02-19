@@ -33,11 +33,63 @@ export class TaskPrismaRepository
     return TaskPrismaModelMapper.toEntity(model);
   }
 
-  findMany(
-    params: SearchParams,
+  async findMany(
+    searchParams: SearchParams,
     queries: AppQuery[],
   ): Promise<SearchResult<TaskEntity>> {
-    throw new Error('Method not implemented.');
+    const searchFields = queries.map((query) => query.field);
+    super.validateQuery(searchFields, searchParams.sort);
+
+    const skip = searchParams.perPage * searchParams.page;
+    const take = searchParams.perPage;
+
+    const filters = await this.prismaService.$extends({
+      query: {
+        task: {
+          count({ model, operation, args, query }) {
+            args.where = {
+              AND: {
+                ...queries.map((q) => ({
+                  [q.field]:
+                    q.operator === EDbOperators.EQUALS
+                      ? q.value
+                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
+                })),
+              },
+            };
+            return query(args);
+          },
+          findMany({ model, operation, args, query }) {
+            args.where = {
+              AND: {
+                ...queries.map((q) => ({
+                  [q.field]:
+                    q.operator === EDbOperators.EQUALS
+                      ? q.value
+                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
+                })),
+              },
+            };
+            args.skip = skip;
+            args.take = take;
+            return query(args);
+          },
+        },
+      },
+    });
+
+    const total = await filters.task.count();
+    const models = await filters.task.findMany();
+    const items = models.map((model) => TaskPrismaModelMapper.toEntity(model));
+
+    return new SearchResult({
+      items,
+      total,
+      page: searchParams.page,
+      perPage: searchParams.perPage,
+      sort: searchParams.sort,
+      sortDir: searchParams.sortDir,
+    });
   }
 
   async findManyByProject(

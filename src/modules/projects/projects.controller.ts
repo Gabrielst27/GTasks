@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
+import { SearchResult } from 'src/common/repositories/search-result';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { ProjectsService } from 'src/modules/projects/projects.service';
@@ -26,7 +27,7 @@ export class ProjectsController {
 
   @Get()
   @ApiResponse({
-    type: [ProjectResponse.Dto],
+    type: [SearchResult<ProjectResponse.Dto>],
   })
   findAll(@Query() searchParams: SearchManyRequestDto) {
     return this.projectsService.findAll(searchParams);
