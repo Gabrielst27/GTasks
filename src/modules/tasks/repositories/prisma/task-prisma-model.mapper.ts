@@ -4,16 +4,44 @@ import { TaskPriority as AppTaskPriority } from 'src/modules/tasks/enums/priorit
 import { TaskStatus as AppTaskStatus } from 'src/modules/tasks/enums/status';
 
 export class TaskPrismaModelMapper {
+  static toEntity(model: Task): TaskEntity {
+    return new TaskEntity({
+      ...model,
+      description: model.description ?? undefined,
+      status: TaskPrismaModelMapper.statusToAppEnum(model.status),
+      priority: TaskPrismaModelMapper.priorityToAppEnum(model.priority),
+      dueDate: model.dueDate ?? undefined,
+    });
+  }
+
   static toModel(entity: TaskEntity): Task {
     const json = entity.toJson();
     return {
       ...json,
-      status: TaskPrismaModelMapper.statusToEnum(json.status),
-      priority: TaskPrismaModelMapper.priorityToEnum(json.priority),
+      status: TaskPrismaModelMapper.statusToModelEnum(json.status),
+      priority: TaskPrismaModelMapper.priorityToModelEnum(json.priority),
     };
   }
 
-  static statusToEnum(statusEnum: AppTaskStatus): TaskStatus {
+  static statusToAppEnum(statusEnum: TaskStatus): AppTaskStatus {
+    const mapper = {
+      TO_DO: AppTaskStatus.TO_DO,
+      IN_PROGRESS: AppTaskStatus.IN_PROGRESS,
+      DONE: AppTaskStatus.DONE,
+    };
+    return mapper[statusEnum];
+  }
+
+  static priorityToAppEnum(priorityEnum: TaskPriority): AppTaskPriority {
+    const mapper = {
+      LOW: AppTaskPriority.LOW,
+      MEDIUM: AppTaskPriority.MEDIUM,
+      HIGH: AppTaskPriority.HIGH,
+    };
+    return mapper[priorityEnum];
+  }
+
+  static statusToModelEnum(statusEnum: AppTaskStatus): TaskStatus {
     const mapper = {
       to_do: TaskStatus.TO_DO,
       in_progress: TaskStatus.IN_PROGRESS,
@@ -22,7 +50,7 @@ export class TaskPrismaModelMapper {
     return mapper[statusEnum];
   }
 
-  static priorityToEnum(priorityEnum: AppTaskPriority): TaskPriority {
+  static priorityToModelEnum(priorityEnum: AppTaskPriority): TaskPriority {
     const mapper = {
       low: TaskPriority.LOW,
       medium: TaskPriority.MEDIUM,

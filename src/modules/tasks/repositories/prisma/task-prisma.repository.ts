@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { BaseRepository } from 'src/common/repositories/repository';
 import { IRepository } from 'src/common/repositories/repository.interface';
 import { AppQuery } from 'src/common/utils/app-queries/app-query';
@@ -16,15 +17,21 @@ export class TaskPrismaRepository
     super();
   }
 
-  findById(id: string): Promise<TaskEntity> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<TaskEntity> {
+    const model = await this.prismaService.task.findUnique({
+      where: { id },
+    });
+    if (!model) throw new NotFoundException('Task não encontrada');
+    return TaskPrismaModelMapper.toEntity(model);
   }
+
   findMany(
     params: IRepository.SearchParams,
     queries: AppQuery[],
   ): Promise<IRepository.SearchResult<TaskEntity>> {
     throw new Error('Method not implemented.');
   }
+
   async create(item: TaskEntity): Promise<TaskEntity> {
     const model = TaskPrismaModelMapper.toModel(item);
     await this.prismaService.task.create({
@@ -32,6 +39,7 @@ export class TaskPrismaRepository
     });
     return item;
   }
+
   update(id: string, item: TaskEntity): Promise<TaskEntity> {
     throw new Error('Method not implemented.');
   }
