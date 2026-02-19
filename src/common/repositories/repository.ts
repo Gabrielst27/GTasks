@@ -7,14 +7,14 @@ export abstract class BaseRepository {
   private validateSearchableFields(fields: string[]) {
     fields.map((field) => {
       if (!this.searchableFields.includes(field)) {
-        throw new BadRequestException('Busca inválida');
+        throw new BadRequestException('Consulta inválida');
       }
     });
   }
 
   private validateSortableField(field: string) {
     if (!this.sortableFields.includes(field)) {
-      throw new BadRequestException('Busca inválida');
+      throw new BadRequestException('Consulta inválida');
     }
   }
 

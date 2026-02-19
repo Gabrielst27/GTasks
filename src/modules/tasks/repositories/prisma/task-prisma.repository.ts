@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { BaseRepository } from 'src/common/repositories/repository';
 import { SearchParams } from 'src/common/repositories/search-params';
@@ -13,7 +13,7 @@ export class TaskPrismaRepository
   extends BaseRepository
   implements ITaskRepository
 {
-  protected searchableFields: string[] = ['title'];
+  protected searchableFields: string[] = ['projectId', 'title'];
   protected sortableFields: string[] = [
     'title',
     'createdAt',
@@ -39,6 +39,10 @@ export class TaskPrismaRepository
   ): Promise<SearchResult<TaskEntity>> {
     const searchFields = queries.map((query) => query.field);
     super.validateQuery(searchFields, searchParams.sort);
+    const haveProjectId = searchFields.includes('projectId');
+    if (!haveProjectId) {
+      throw new BadRequestException('Task deve estar vinculada a um projeto');
+    }
 
     const skip = searchParams.perPage * searchParams.page;
     const take = searchParams.perPage;
@@ -48,92 +52,27 @@ export class TaskPrismaRepository
         task: {
           count({ model, operation, args, query }) {
             args.where = {
-              AND: {
-                ...queries.map((q) => ({
-                  [q.field]:
-                    q.operator === EDbOperators.EQUALS
-                      ? q.value
-                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
-                })),
-              },
+              AND: queries.map((q) => ({
+                [q.field]:
+                  q.operator === EDbOperators.EQUALS
+                    ? q.value
+                    : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
+              })),
             };
             return query(args);
           },
           findMany({ model, operation, args, query }) {
             args.where = {
-              AND: {
-                ...queries.map((q) => ({
-                  [q.field]:
-                    q.operator === EDbOperators.EQUALS
-                      ? q.value
-                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
-                })),
-              },
+              AND: queries.map((q) => ({
+                [q.field]:
+                  q.operator === EDbOperators.EQUALS
+                    ? q.value
+                    : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
+              })),
             };
             args.skip = skip;
             args.take = take;
-            return query(args);
-          },
-        },
-      },
-    });
-
-    const total = await filters.task.count();
-    const models = await filters.task.findMany();
-    const items = models.map((model) => TaskPrismaModelMapper.toEntity(model));
-
-    return new SearchResult({
-      items,
-      total,
-      page: searchParams.page,
-      perPage: searchParams.perPage,
-      sort: searchParams.sort,
-      sortDir: searchParams.sortDir,
-    });
-  }
-
-  async findManyByProject(
-    projectId: string,
-    searchParams: SearchParams,
-    queries: AppQuery[],
-  ): Promise<SearchResult<TaskEntity>> {
-    const searchFields = queries.map((query) => query.field);
-    super.validateQuery(searchFields, searchParams.sort);
-
-    const skip = searchParams.perPage * searchParams.page;
-    const take = searchParams.perPage;
-
-    const filters = await this.prismaService.$extends({
-      query: {
-        task: {
-          count({ model, operation, args, query }) {
-            args.where = {
-              AND: {
-                projectId,
-                ...queries.map((q) => ({
-                  [q.field]:
-                    q.operator === EDbOperators.EQUALS
-                      ? q.value
-                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
-                })),
-              },
-            };
-            return query(args);
-          },
-          findMany({ model, operation, args, query }) {
-            args.where = {
-              AND: {
-                projectId,
-                ...queries.map((q) => ({
-                  [q.field]:
-                    q.operator === EDbOperators.EQUALS
-                      ? q.value
-                      : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
-                })),
-              },
-            };
-            args.skip = skip;
-            args.take = take;
+            console.log(args.where);
             return query(args);
           },
         },

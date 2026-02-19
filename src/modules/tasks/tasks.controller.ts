@@ -18,7 +18,7 @@ import { TasksService } from 'src/modules/tasks/tasks.service';
 
 @Controller({
   version: '1',
-  path: 'tasks',
+  path: 'projects/:projectId/tasks',
 })
 export class TasksController {
   constructor(private service: TasksService) {}
@@ -31,14 +31,8 @@ export class TasksController {
 
   @Get()
   @ApiResponse({ type: SearchResult<TaskResponse.Dto> })
-  findAll(@Query() params: SearchManyRequestDto) {
-    return this.service.findAll(params);
-  }
-
-  @Get('find-by-project/:id')
-  @ApiResponse({ type: SearchResult<TaskResponse.Dto> })
   findAllByProject(
-    @Param('id', ParseUUIDPipe) projectId: string,
+    @Param('projectId', ParseUUIDPipe) projectId: string,
     @Query() params: SearchManyRequestDto,
   ) {
     return this.service.findAllByProject(projectId, params);

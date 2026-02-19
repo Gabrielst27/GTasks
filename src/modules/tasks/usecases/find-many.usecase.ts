@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import {
   SearchParams,
   SearchProps,
@@ -14,32 +15,37 @@ import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository'
 
 export namespace FindManyTasksUseCase {
   export type Input = {
+    projectId: string;
     searchProps: SearchProps;
-    queries: AppQueryProps[];
+    queriesProps?: AppQueryProps[];
   };
-
   export type Output = SearchResult<TaskResponse.Dto>;
 
   export class UseCase implements IUseCase<Input, Output> {
     constructor(private repository: ITaskRepository) {}
 
     async execute(input: Input): Promise<Output> {
-      const { searchProps, queries } = input;
+      const { projectId, searchProps, queriesProps } = input;
+      if (!projectId) {
+        throw new BadRequestException('Busca Inválida');
+      }
       const searchParams = new SearchParams(searchProps);
-      const appQueries = queries.map((query) => new AppQuery(query));
+      const appQueries = queriesProps
+        ? queriesProps.map((query) => new AppQuery(query))
+        : [];
       const result = await this.repository.findMany(searchParams, appQueries);
       return this.convertToResponse(result);
     }
 
-    private convertToResponse(
+    convertToResponse(
       result: SearchResult<TaskEntity>,
     ): SearchResult<TaskResponse.Dto> {
-      const items = result.items.map((entity) =>
+      const responses = result.items.map((entity) =>
         TaskResponse.Mapper.toResponse(entity),
       );
       return {
         ...result,
-        items,
+        items: responses,
       };
     }
   }

@@ -1,10 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
+import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { SearchResult } from 'src/common/repositories/search-result';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
+import { AppQueryProps } from 'src/common/utils/app-queries/app-query';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
 import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
-import { FindManyTasksByProjectUseCase } from 'src/modules/tasks/usecases/find-many-by-project.usecase';
+import { FindManyTasksUseCase } from 'src/modules/tasks/usecases/find-many.usecase';
 
 export namespace FindAllTasksByProjectUseCase {
   export type Input = {
@@ -22,13 +24,16 @@ export namespace FindAllTasksByProjectUseCase {
       if (!projectId) {
         throw new BadRequestException('Busca inválida');
       }
-      const findMany = new FindManyTasksByProjectUseCase.UseCase(
-        this.repository,
-      );
+      const projectFilter: AppQueryProps = {
+        field: 'projectId',
+        operator: EDbOperators.EQUALS,
+        value: projectId,
+      };
+      const findMany = new FindManyTasksUseCase.UseCase(this.repository);
       return await findMany.execute({
         projectId,
         searchProps: params,
-        queriesProps: [],
+        queriesProps: [projectFilter],
       });
     }
   }
