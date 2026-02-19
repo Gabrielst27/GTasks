@@ -15,8 +15,8 @@ export class TaskEntity extends Entity<TaskEntityProps> {
   constructor(props: TaskEntityProps, id?: string) {
     //TODO: implement task entity validation
     props.description = props.description ?? '';
-    props.status = TaskStatus.TO_DO;
-    props.priority = TaskPriority.LOW;
+    props.status = props.status ?? TaskStatus.TO_DO;
+    props.priority = props.priority ?? TaskPriority.LOW;
     super(props, id);
   }
 

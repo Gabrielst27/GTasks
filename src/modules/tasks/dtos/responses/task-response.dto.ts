@@ -22,10 +22,18 @@ export namespace TaskResponse {
     @ApiProperty({ description: 'Descrição da tarefa' })
     description: string;
 
-    @ApiProperty({ description: 'Status da tarefa' })
+    @ApiProperty({
+      description: 'Status da tarefa',
+      enum: TaskStatus,
+      default: TaskStatus.TO_DO,
+    })
     status: TaskStatus;
 
-    @ApiProperty({ description: 'Prioridade da tarefa' })
+    @ApiProperty({
+      description: 'Prioridade da tarefa',
+      enum: TaskPriority,
+      default: TaskPriority.LOW,
+    })
     priority: TaskPriority;
 
     @ApiProperty({

@@ -72,7 +72,6 @@ export class TaskPrismaRepository
             };
             args.skip = skip;
             args.take = take;
-            console.log(args.where);
             return query(args);
           },
         },

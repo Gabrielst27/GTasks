@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Post,
@@ -39,6 +41,7 @@ export class TasksController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
     type: TaskResponse.Dto,
   })

@@ -26,7 +26,12 @@ export class TaskRequestDto {
     message:
       'status deve ser um enum com os seguintes valores: to_do, in_progress, done',
   })
-  @ApiProperty({ description: 'Status da tarefa', required: false })
+  @ApiProperty({
+    description: 'Status da tarefa',
+    enum: TaskStatus,
+    default: TaskStatus.TO_DO,
+    required: false,
+  })
   status?: TaskStatus;
 
   @IsOptional({ message: 'priority não pode estar vazio' })
@@ -34,7 +39,12 @@ export class TaskRequestDto {
     message:
       'priority deve ser um enum com os seguintes valores: low, medium, high',
   })
-  @ApiProperty({ description: 'Prioridade da tarefa', required: false })
+  @ApiProperty({
+    description: 'Prioridade da tarefa',
+    enum: TaskPriority,
+    default: TaskPriority.LOW,
+    required: false,
+  })
   priority?: TaskPriority;
 
   @IsOptional({ message: 'dueDate não pode estar vazio' })
