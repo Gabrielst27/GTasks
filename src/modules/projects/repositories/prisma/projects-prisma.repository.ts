@@ -34,7 +34,7 @@ export class ProjectsPrismaRepository
     queries: AppQuery[],
   ): Promise<IRepository.SearchResult<ProjectEntity>> {
     const fields = queries.map((query) => query.field);
-    super.validate(fields, params.sort);
+    super.validateQuery(fields, params.sort);
 
     const skip = params.page * params.perPage;
     const take = params.perPage;

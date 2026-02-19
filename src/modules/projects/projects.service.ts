@@ -14,7 +14,7 @@ import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.u
 export class ProjectsService {
   constructor(private repository: IProjectRepository) {}
   async findAll(
-    searchParams: SearchManyRequestDto.Request,
+    searchParams: SearchManyRequestDto,
   ): Promise<IRepository.SearchResult<ProjectResponse.Dto>> {
     const usecase = new FindAllProjectsUseCase.UseCase(this.repository);
     return await usecase.execute(searchParams);

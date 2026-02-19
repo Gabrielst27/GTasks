@@ -1,4 +1,5 @@
 import { Task, TaskPriority, TaskStatus } from 'generated/prisma/browser';
+import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
 import { TaskPriority as AppTaskPriority } from 'src/modules/tasks/enums/priority';
 import { TaskStatus as AppTaskStatus } from 'src/modules/tasks/enums/status';
@@ -57,5 +58,20 @@ export class TaskPrismaModelMapper {
       high: TaskPriority.HIGH,
     };
     return mapper[priorityEnum];
+  }
+
+  static operatorToModelEnum(opEnum: EDbOperators) {
+    const mapper = {
+      equal: 'equals',
+      in: 'in',
+      not_in: 'notin',
+      lesser_than: 'lt',
+      lesser_than_or_equal: 'lte',
+      greater_than: 'gt',
+      greater_than_or_equal: 'gte',
+      not: 'not',
+      contains: 'contains',
+    };
+    return mapper[opEnum];
   }
 }

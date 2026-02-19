@@ -18,7 +18,7 @@ export abstract class BaseRepository {
     }
   }
 
-  protected validate(searchFields: string[], sortField: string) {
+  protected validateQuery(searchFields: string[], sortField: string) {
     this.validateSearchableFields(searchFields);
     this.validateSortableField(sortField);
   }

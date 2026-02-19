@@ -28,7 +28,7 @@ export class ProjectsController {
   @ApiResponse({
     type: [ProjectResponse.Dto],
   })
-  findAll(@Query() searchParams: SearchManyRequestDto.Request) {
+  findAll(@Query() searchParams: SearchManyRequestDto) {
     return this.projectsService.findAll(searchParams);
   }
 
