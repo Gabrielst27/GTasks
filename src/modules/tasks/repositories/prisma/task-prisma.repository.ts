@@ -162,8 +162,13 @@ export class TaskPrismaRepository
     return item;
   }
 
-  update(id: string, item: TaskEntity): Promise<TaskEntity> {
-    throw new Error('Method not implemented.');
+  async update(id: string, item: TaskEntity): Promise<TaskEntity> {
+    const model = TaskPrismaModelMapper.toModel(item);
+    await this.prismaService.task.update({
+      where: { id },
+      data: model,
+    });
+    return item;
   }
 
   delete(id: string): Promise<TaskEntity> {

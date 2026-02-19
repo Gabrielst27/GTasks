@@ -41,9 +41,4 @@ export class TaskRequestDto {
   @IsDate({ message: 'dueDate deve ser uma data' })
   @ApiProperty({ description: 'Data de vencimento da tarefa', required: false })
   dueDate?: Date;
-
-  @IsNotEmpty({ message: 'projectId precisa estar preenchido' })
-  @IsUUID('4', { message: 'projectId deve ser um UUID' })
-  @ApiProperty({ description: 'Projeto ao qual a tarefa pertence' })
-  projectId: string;
 }

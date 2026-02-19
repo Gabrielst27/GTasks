@@ -60,9 +60,9 @@ export class ProjectsController {
     return this.projectsService.update(id, data);
   }
 
-  @Delete()
-  @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id', ParseUUIDPipe) id: string) {
-    return this.projectsService.delete(id);
-  }
+  // @Delete()
+  // @HttpCode(HttpStatus.NO_CONTENT)
+  // delete(@Param('id', ParseUUIDPipe) id: string) {
+  //   return this.projectsService.delete(id);
+  // }
 }

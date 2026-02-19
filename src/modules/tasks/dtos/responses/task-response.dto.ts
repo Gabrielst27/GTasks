@@ -9,13 +9,13 @@ export namespace TaskResponse {
     description: string;
     status: TaskStatus;
     priority: TaskPriority;
-    dueDate: Date;
+    dueDate: string;
     projectId: string;
     createdAt: string;
     updatedAt: string;
   };
 
-  export class Dto {
+  export class Dto implements Props {
     @ApiProperty({ description: 'Título da tarefa' })
     title: string;
 
