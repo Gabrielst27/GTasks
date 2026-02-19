@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsAlpha, IsIn, IsInt, IsOptional } from 'class-validator';
-import { IRepository } from 'src/common/repositories/repository.interface';
+import { SearchProps } from 'src/common/repositories/search-params';
 
-export class SearchManyRequestDto implements IRepository.SearchProps {
+export class SearchManyRequestDto implements SearchProps {
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'page deve ser um número inteiro' })

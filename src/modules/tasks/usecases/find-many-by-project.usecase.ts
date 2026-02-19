@@ -1,5 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
-import { IRepository } from 'src/common/repositories/repository.interface';
+import {
+  SearchParams,
+  SearchProps,
+} from 'src/common/repositories/search-params';
+import { SearchResult } from 'src/common/repositories/search-result';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
 import {
   AppQuery,
@@ -9,13 +13,13 @@ import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto
 import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
 import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
 
-export namespace SearchManyTasksByProjectUseCase {
+export namespace FindManyTasksByProjectUseCase {
   export type Input = {
     projectId: string;
-    searchProps: IRepository.SearchProps;
+    searchProps: SearchProps;
     queriesProps?: AppQueryProps[];
   };
-  export type Output = IRepository.SearchResult<TaskResponse.Dto>;
+  export type Output = SearchResult<TaskResponse.Dto>;
 
   export class UseCase implements IUseCase<Input, Output> {
     constructor(private repository: ITaskRepository) {}
@@ -25,7 +29,7 @@ export namespace SearchManyTasksByProjectUseCase {
       if (!projectId) {
         throw new BadRequestException('Busca Inválida');
       }
-      const searchParams = new IRepository.SearchParams(params);
+      const searchParams = new SearchParams(params);
       const appQueries = queries
         ? queries.map((query) => new AppQuery(query))
         : [];
@@ -38,8 +42,8 @@ export namespace SearchManyTasksByProjectUseCase {
     }
 
     convertToResponse(
-      result: IRepository.SearchResult<TaskEntity>,
-    ): IRepository.SearchResult<TaskResponse.Dto> {
+      result: SearchResult<TaskEntity>,
+    ): SearchResult<TaskResponse.Dto> {
       const responses = result.items.map((entity) =>
         TaskResponse.Mapper.toResponse(entity),
       );

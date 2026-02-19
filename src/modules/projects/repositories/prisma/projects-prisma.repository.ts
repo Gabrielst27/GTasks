@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { BaseRepository } from 'src/common/repositories/repository';
-import { IRepository } from 'src/common/repositories/repository.interface';
+import { SearchParams } from 'src/common/repositories/search-params';
+import { SearchResult } from 'src/common/repositories/search-result';
 import { AppQuery } from 'src/common/utils/app-queries/app-query';
 import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
 import { ProjectPrismaModelMapper } from 'src/modules/projects/repositories/prisma/project-prisma-model.mapper';
@@ -30,9 +31,9 @@ export class ProjectsPrismaRepository
     return ProjectPrismaModelMapper.toEntity(model);
   }
   async findMany(
-    params: IRepository.SearchParams,
+    params: SearchParams,
     queries: AppQuery[],
-  ): Promise<IRepository.SearchResult<ProjectEntity>> {
+  ): Promise<SearchResult<ProjectEntity>> {
     const fields = queries.map((query) => query.field);
     super.validateQuery(fields, params.sort);
 
@@ -83,7 +84,7 @@ export class ProjectsPrismaRepository
       ProjectPrismaModelMapper.toEntity(model),
     );
 
-    return new IRepository.SearchResult<ProjectEntity>({
+    return new SearchResult<ProjectEntity>({
       items,
       page: 0,
       perPage: 15,

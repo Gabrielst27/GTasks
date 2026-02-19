@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
+import { SearchResult } from 'src/common/repositories/search-result';
 import { TaskRequestDto } from 'src/modules/tasks/dtos/requests/task-request.dto';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
 import { TasksService } from 'src/modules/tasks/tasks.service';
@@ -13,8 +23,17 @@ export class TasksController {
 
   @Get(':id')
   @ApiResponse({ type: TaskResponse.Dto })
-  findById(@Param('id') id: string) {
+  findById(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.findById(id);
+  }
+
+  @Get('find-by-project/:id')
+  @ApiResponse({ type: SearchResult })
+  findAllByProject(
+    @Param('id', ParseUUIDPipe) projectId: string,
+    @Query() params: SearchManyRequestDto,
+  ) {
+    return this.service.findAllByProject(projectId, params);
   }
 
   @Post()

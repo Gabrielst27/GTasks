@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
-import { IRepository } from 'src/common/repositories/repository.interface';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
 import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
 import { CreateProjectUseCase } from 'src/modules/projects/usecases/create.usecase';
-import { FindManyProjectsUseCase } from 'src/modules/projects/usecases/find-many.usecase';
 import { FindProjectByIdUseCase } from 'src/modules/projects/usecases/find-by-id.usecase';
 import { UpdateProjectUseCase } from 'src/modules/projects/usecases/update.usecase';
 import { FindAllProjectsUseCase } from 'src/modules/projects/usecases/find-all.usecase';
+import { SearchResult } from 'src/common/repositories/search-result';
 
 @Injectable()
 export class ProjectsService {
   constructor(private repository: IProjectRepository) {}
   async findAll(
     searchParams: SearchManyRequestDto,
-  ): Promise<IRepository.SearchResult<ProjectResponse.Dto>> {
+  ): Promise<SearchResult<ProjectResponse.Dto>> {
     const usecase = new FindAllProjectsUseCase.UseCase(this.repository);
     return await usecase.execute(searchParams);
   }

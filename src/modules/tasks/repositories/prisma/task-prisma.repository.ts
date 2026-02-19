@@ -1,7 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
 import { BaseRepository } from 'src/common/repositories/repository';
-import { IRepository } from 'src/common/repositories/repository.interface';
+import { SearchParams } from 'src/common/repositories/search-params';
+import { SearchResult } from 'src/common/repositories/search-result';
 import { AppQuery } from 'src/common/utils/app-queries/app-query';
 import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
 import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
@@ -12,8 +13,13 @@ export class TaskPrismaRepository
   extends BaseRepository
   implements ITaskRepository
 {
-  protected searchableFields: string[];
-  protected sortableFields: string[];
+  protected searchableFields: string[] = ['title'];
+  protected sortableFields: string[] = [
+    'title',
+    'createdAt',
+    'updatedAt',
+    'dueDate',
+  ];
 
   constructor(private prismaService: PrismaService) {
     super();
@@ -28,17 +34,17 @@ export class TaskPrismaRepository
   }
 
   findMany(
-    params: IRepository.SearchParams,
+    params: SearchParams,
     queries: AppQuery[],
-  ): Promise<IRepository.SearchResult<TaskEntity>> {
+  ): Promise<SearchResult<TaskEntity>> {
     throw new Error('Method not implemented.');
   }
 
   async findManyByProject(
     projectId: string,
-    searchParams: IRepository.SearchParams,
+    searchParams: SearchParams,
     queries: AppQuery[],
-  ): Promise<IRepository.SearchResult<TaskEntity>> {
+  ): Promise<SearchResult<TaskEntity>> {
     const searchFields = queries.map((query) => query.field);
     super.validateQuery(searchFields, searchParams.sort);
 
@@ -86,7 +92,7 @@ export class TaskPrismaRepository
     const models = await filters.task.findMany();
     const items = models.map((model) => TaskPrismaModelMapper.toEntity(model));
 
-    return new IRepository.SearchResult({
+    return new SearchResult({
       items,
       total,
       page: searchParams.page,

@@ -11,8 +11,11 @@ export class AppQuery {
   readonly field: string;
   readonly value: string;
   readonly operator: EDbOperators;
+  public readonly isValid: boolean = false;
+
   constructor(props: AppQueryProps) {
     AppQuery.validate(props);
+    this.isValid = true;
     this.field = props.field;
     this.value = props.value;
     this.operator = props.operator;
