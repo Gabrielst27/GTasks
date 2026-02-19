@@ -57,7 +57,7 @@ export namespace TaskResponse {
         ...json,
         createdAt: json.createdAt.toISOString(),
         updatedAt: json.updatedAt.toISOString(),
-        dueDate: json.createdAt.toISOString(),
+        dueDate: json.dueDate ? json.dueDate.toISOString() : '',
       };
     }
   }
