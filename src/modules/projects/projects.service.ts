@@ -23,14 +23,14 @@ export class ProjectsService {
     return await usecase.execute({ id });
   }
 
-  async create(data: ProjectRequestDto) {
+  async create(author: string, data: ProjectRequestDto) {
     const usecase = new CreateProjectUseCase.UseCase(this.repository);
-    return await usecase.execute(data);
+    return await usecase.execute({ ...data, author });
   }
 
   async update(id: string, data: ProjectRequestDto) {
     const usecase = new UpdateProjectUseCase.UseCase(this.repository);
-    return await usecase.execute({ id, ...data });
+    return await usecase.execute({ ...data, id });
   }
 
   delete(id: string) {}

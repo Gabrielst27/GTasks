@@ -28,6 +28,10 @@ export namespace ProjectResponse {
     description: string;
 
     @IsNotEmpty()
+    @ApiProperty({ description: 'ID do criador do projeto' })
+    createdById: string;
+
+    @IsNotEmpty()
     @ApiProperty({ format: 'date-time' })
     createdAt: string;
 

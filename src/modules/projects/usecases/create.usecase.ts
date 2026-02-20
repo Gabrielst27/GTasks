@@ -6,7 +6,7 @@ import { ProjectEntity } from 'src/domain/projects/entities/project.entity';
 import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 
 export namespace CreateProjectUseCase {
-  export type Input = ProjectRequestDto;
+  export type Input = ProjectRequestDto & { author: string };
 
   export type Output = ProjectResponse.Dto;
 
@@ -14,11 +14,15 @@ export namespace CreateProjectUseCase {
     constructor(private repository: IProjectRepository) {}
 
     async execute(input: Input): Promise<ProjectResponse.Dto> {
-      const { name, description } = input;
+      const { name, description, author } = input;
       if (!name) {
         throw new BadRequestException('Dados inválidos');
       }
-      const entity = new ProjectEntity({ name, description });
+      const entity = new ProjectEntity({
+        name,
+        description,
+        createdBy: author,
+      });
       const result = await this.repository.create(entity);
       return ProjectResponse.Mapper.toResponse(result);
     }

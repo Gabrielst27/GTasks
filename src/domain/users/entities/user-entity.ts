@@ -16,14 +16,14 @@ export class UserEntity extends Entity<UserEntityProps> {
     props.role = props.role || Role.USER;
     super(props, id);
   }
-}
 
-function test() {
-  const e = new UserEntity({
-    name: 'a',
-    email: 'asa',
-    password: 'asdas',
-  });
-  console.log(e);
+  updateProps(partialProps: Partial<UserEntityProps>): UserEntity {
+    //TODO: Create user entity validation
+    const props = {
+      ...this.props,
+      ...partialProps,
+    };
+    super.updateProps(props);
+    return this;
+  }
 }
-test();

@@ -3,6 +3,7 @@ import { Entity, EntityProps } from 'src/common/entities/entity';
 export type ProjectEntityProps = {
   name: string;
   description?: string;
+  createdById: string;
 } & EntityProps;
 
 export class ProjectEntity extends Entity<ProjectEntityProps> {

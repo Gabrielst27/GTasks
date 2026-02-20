@@ -6,15 +6,26 @@ export class ProjectPrismaModelMapper {
   static toEntity(model: Project): ProjectEntity {
     return new ProjectEntity(
       {
-        ...model,
+        name: model.name,
         description: model.description || undefined,
+        createdById: model.createdById,
+        createdAt: model.createdAt,
+        updatedAt: model.updatedAt,
       },
       model.id,
     );
   }
 
   static toModel(entity: ProjectEntity): Project {
-    return entity.toJson();
+    const json = entity.toJson();
+    return {
+      id: json.name,
+      name: json.name,
+      description: json.description,
+      createdById: json.createdById,
+      createdAt: json.createdAt,
+      updatedAt: json.updatedAt,
+    };
   }
 
   static enumToOperator(opEnum: EDbOperators) {

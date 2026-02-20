@@ -43,7 +43,10 @@ export class ProjectsController {
     type: ProjectResponse.Dto,
   })
   create(@Body() data: ProjectRequestDto) {
-    return this.projectsService.create(data);
+    return this.projectsService.create(
+      '8aff0449-6bbc-4b4c-8d5f-4d2fb05ef2af',
+      data,
+    );
   }
 
   @Put(':id')
