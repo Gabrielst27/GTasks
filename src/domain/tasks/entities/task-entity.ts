@@ -9,6 +9,8 @@ export type TaskEntityProps = {
   priority?: TaskPriority;
   dueDate?: Date;
   projectId: string;
+  createdById: string;
+  assigneeId: string;
 } & EntityProps;
 
 export class TaskEntity extends Entity<TaskEntityProps> {

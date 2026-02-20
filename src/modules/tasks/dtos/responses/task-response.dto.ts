@@ -45,6 +45,12 @@ export namespace TaskResponse {
     @ApiProperty({ description: 'Projeto ao qual a tarefa pertence' })
     projectId: string;
 
+    @ApiProperty({ description: 'ID do colaborador responsável pela tarefa' })
+    assigneeId: string;
+
+    @ApiProperty({ description: 'ID do criador da tarefa' })
+    createdById: string;
+
     @ApiProperty({
       description: 'Data de criação da tarefa',
       format: 'date-time',

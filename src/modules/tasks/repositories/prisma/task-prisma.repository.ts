@@ -13,7 +13,12 @@ export class TaskPrismaRepository
   extends BaseRepository
   implements ITaskRepository
 {
-  protected searchableFields: string[] = ['projectId', 'title'];
+  protected searchableFields: string[] = [
+    'projectId',
+    'title',
+    'assigneeId',
+    'createdById',
+  ];
   protected sortableFields: string[] = [
     'title',
     'createdAt',

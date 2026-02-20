@@ -19,7 +19,7 @@ export class ProjectPrismaModelMapper {
   static toModel(entity: ProjectEntity): Project {
     const json = entity.toJson();
     return {
-      id: json.name,
+      id: json.id,
       name: json.name,
       description: json.description,
       createdById: json.createdById,

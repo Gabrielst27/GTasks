@@ -25,7 +25,7 @@ export class ProjectsService {
 
   async create(author: string, data: ProjectRequestDto) {
     const usecase = new CreateProjectUseCase.UseCase(this.repository);
-    return await usecase.execute({ ...data, author });
+    return await usecase.execute({ ...data, createdById: author });
   }
 
   async update(id: string, data: ProjectRequestDto) {

@@ -27,9 +27,12 @@ export class TasksService {
     return await usecase.execute({ projectId, params });
   }
 
-  async create(request: CreateTaskRequestDto): Promise<TaskResponse.Dto> {
+  async create(
+    author: string,
+    request: CreateTaskRequestDto,
+  ): Promise<TaskResponse.Dto> {
     const usecase = new CreateTaskUseCase.UseCase(this.repository);
-    return await usecase.execute(request);
+    return await usecase.execute({ ...request, createdById: author });
   }
 
   async update(id: string, request: TaskRequestDto): Promise<TaskResponse.Dto> {
