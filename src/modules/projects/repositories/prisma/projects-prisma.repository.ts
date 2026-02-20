@@ -70,6 +70,7 @@ export class ProjectsPrismaRepository
                       },
               })),
             };
+            args.orderBy = { [params.sort]: params.sortDir };
             args.take = take;
             args.skip = skip;
             return query(args);

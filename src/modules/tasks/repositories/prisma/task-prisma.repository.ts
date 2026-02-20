@@ -70,6 +70,7 @@ export class TaskPrismaRepository
                     : [TaskPrismaModelMapper.operatorToModelEnum(q.operator)],
               })),
             };
+            args.orderBy = { [searchParams.sort]: searchParams.sortDir };
             args.skip = skip;
             args.take = take;
             return query(args);
