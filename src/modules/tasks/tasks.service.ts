@@ -4,7 +4,7 @@ import { SearchResult } from 'src/common/repositories/search-result';
 import { CreateTaskRequestDto } from 'src/modules/tasks/dtos/requests/create-task-request.dto';
 import { TaskRequestDto } from 'src/modules/tasks/dtos/requests/task-request.dto';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
-import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
+import { ITaskRepository } from 'src/domain/tasks/repositories/task-repository';
 import { CreateTaskUseCase } from 'src/modules/tasks/usecases/create.usecase';
 import { FindAllTasksByProjectUseCase } from 'src/modules/tasks/usecases/find-all-by-project.usecase';
 import { FindTaskByIdUseCase } from 'src/modules/tasks/usecases/find-by-id.usecase';

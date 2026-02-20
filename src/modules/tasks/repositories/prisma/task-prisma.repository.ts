@@ -5,9 +5,9 @@ import { SearchParams } from 'src/common/repositories/search-params';
 import { SearchResult } from 'src/common/repositories/search-result';
 import { AppQuery } from 'src/common/utils/app-queries/app-query';
 import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
-import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
+import { TaskEntity } from 'src/domain/tasks/entities/task-entity';
 import { TaskPrismaModelMapper } from 'src/modules/tasks/repositories/prisma/task-prisma-model.mapper';
-import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
+import { ITaskRepository } from 'src/domain/tasks/repositories/task-repository';
 
 export class TaskPrismaRepository
   extends BaseRepository

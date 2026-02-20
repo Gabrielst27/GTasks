@@ -1,8 +1,8 @@
 import { Task, TaskPriority, TaskStatus } from 'generated/prisma/browser';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
-import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
-import { TaskPriority as AppTaskPriority } from 'src/modules/tasks/enums/priority';
-import { TaskStatus as AppTaskStatus } from 'src/modules/tasks/enums/status';
+import { TaskEntity } from 'src/domain/tasks/entities/task-entity';
+import { TaskPriority as AppTaskPriority } from 'src/domain/tasks/enums/priority';
+import { TaskStatus as AppTaskStatus } from 'src/domain/tasks/enums/status';
 
 export class TaskPrismaModelMapper {
   static toEntity(model: Task): TaskEntity {

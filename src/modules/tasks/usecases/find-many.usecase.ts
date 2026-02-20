@@ -10,8 +10,8 @@ import {
   AppQueryProps,
 } from 'src/common/utils/app-queries/app-query';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
-import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
-import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
+import { TaskEntity } from 'src/domain/tasks/entities/task-entity';
+import { ITaskRepository } from 'src/domain/tasks/repositories/task-repository';
 
 export namespace FindManyTasksUseCase {
   export type Input = {

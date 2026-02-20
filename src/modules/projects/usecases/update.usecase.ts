@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
-import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
+import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 
 export namespace UpdateProjectUseCase {
   export type Input = ProjectRequestDto & { id: string };

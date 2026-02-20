@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from 'src/common/entities/entity';
-import { TaskPriority } from 'src/modules/tasks/enums/priority';
-import { TaskStatus } from 'src/modules/tasks/enums/status';
+import { TaskPriority } from 'src/domain/tasks/enums/priority';
+import { TaskStatus } from 'src/domain/tasks/enums/status';
 
 export type TaskEntityProps = {
   title: string;

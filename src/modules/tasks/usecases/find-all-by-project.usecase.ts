@@ -5,7 +5,7 @@ import { SearchResult } from 'src/common/repositories/search-result';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
 import { AppQueryProps } from 'src/common/utils/app-queries/app-query';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
-import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
+import { ITaskRepository } from 'src/domain/tasks/repositories/task-repository';
 import { FindManyTasksUseCase } from 'src/modules/tasks/usecases/find-many.usecase';
 
 export namespace FindAllTasksByProjectUseCase {

@@ -4,9 +4,9 @@ import { BaseRepository } from 'src/common/repositories/repository';
 import { SearchParams } from 'src/common/repositories/search-params';
 import { SearchResult } from 'src/common/repositories/search-result';
 import { AppQuery } from 'src/common/utils/app-queries/app-query';
-import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
+import { ProjectEntity } from 'src/domain/projects/entities/project.entity';
 import { ProjectPrismaModelMapper } from 'src/modules/projects/repositories/prisma/project-prisma-model.mapper';
-import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
+import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
 
 @Injectable()
@@ -24,12 +24,14 @@ export class ProjectsPrismaRepository
   async findById(id: string): Promise<ProjectEntity> {
     const model = await this.prismaService.project.findFirst({
       where: { id },
+      include: { tasks: {} },
     });
     if (!model) {
       throw new NotFoundException('Projeto não encontrado');
     }
     return ProjectPrismaModelMapper.toEntity(model);
   }
+
   async findMany(
     params: SearchParams,
     queries: AppQuery[],

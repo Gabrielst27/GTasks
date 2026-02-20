@@ -1,4 +1,4 @@
 import { IRepository } from 'src/common/repositories/repository.interface';
-import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
+import { ProjectEntity } from 'src/domain/projects/entities/project.entity';
 
 export interface IProjectRepository extends IRepository<ProjectEntity> {}

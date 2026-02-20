@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { IUseCase } from 'src/common/usecases/usecase.interface';
 import { TaskRequestDto } from 'src/modules/tasks/dtos/requests/task-request.dto';
 import { TaskResponse } from 'src/modules/tasks/dtos/responses/task-response.dto';
-import { ITaskRepository } from 'src/modules/tasks/repositories/task-repository';
+import { ITaskRepository } from 'src/domain/tasks/repositories/task-repository';
 
 export namespace UpdateTaskUseCase {
   export type Input = TaskRequestDto & { id: string };

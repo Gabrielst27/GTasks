@@ -3,7 +3,7 @@ import { ProjectsController } from './projects.controller';
 import { ProjectsService } from './projects.service';
 import { SharedModule } from 'src/modules/shared/shared.module';
 import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
-import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
+import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 import { ProjectsPrismaRepository } from 'src/modules/projects/repositories/prisma/projects-prisma.repository';
 
 @Module({

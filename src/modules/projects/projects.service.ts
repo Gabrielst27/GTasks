@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchManyRequestDto } from 'src/common/dtos/requests/search-many-request.dto';
 import { ProjectRequestDto } from 'src/modules/projects/dtos/requests/project-request.dto';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
-import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
+import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 import { CreateProjectUseCase } from 'src/modules/projects/usecases/create.usecase';
 import { FindProjectByIdUseCase } from 'src/modules/projects/usecases/find-by-id.usecase';
 import { UpdateProjectUseCase } from 'src/modules/projects/usecases/update.usecase';

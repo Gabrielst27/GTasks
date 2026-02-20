@@ -9,8 +9,8 @@ import {
   AppQueryProps,
 } from 'src/common/utils/app-queries/app-query';
 import { ProjectResponse } from 'src/modules/projects/dtos/responses/project-response.dto';
-import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
-import { IProjectRepository } from 'src/modules/projects/repositories/projects.repository';
+import { ProjectEntity } from 'src/domain/projects/entities/project.entity';
+import { IProjectRepository } from 'src/domain/projects/repositories/projects.repository';
 
 export namespace FindManyProjectsUseCase {
   export type Input = Required<SearchProps & { queries: AppQueryProps[] }>;

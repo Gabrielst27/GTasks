@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TaskEntity } from 'src/modules/tasks/entities/task-entity';
-import { TaskPriority } from 'src/modules/tasks/enums/priority';
-import { TaskStatus } from 'src/modules/tasks/enums/status';
+import { TaskEntity } from 'src/domain/tasks/entities/task-entity';
+import { TaskPriority } from 'src/domain/tasks/enums/priority';
+import { TaskStatus } from 'src/domain/tasks/enums/status';
 
 export namespace TaskResponse {
   type Props = {

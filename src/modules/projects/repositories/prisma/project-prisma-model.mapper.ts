@@ -1,6 +1,6 @@
 import { Project } from 'generated/prisma/client';
 import { EDbOperators } from 'src/common/enum/db-operators.enum';
-import { ProjectEntity } from 'src/modules/projects/entities/project.entity';
+import { ProjectEntity } from 'src/domain/projects/entities/project.entity';
 
 export class ProjectPrismaModelMapper {
   static toEntity(model: Project): ProjectEntity {
