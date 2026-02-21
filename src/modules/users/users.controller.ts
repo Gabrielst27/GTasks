@@ -1,4 +1,15 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
+import { UsersService } from 'src/modules/users/users.service';
 
-@Controller('users')
-export class UsersController {}
+@Controller({
+  version: '1',
+  path: 'users',
+})
+export class UsersController {
+  constructor(private service: UsersService) {}
+
+  @Post()
+  create() {
+    return this.service.create();
+  }
+}
