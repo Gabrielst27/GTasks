@@ -4,14 +4,15 @@ import {
   UserEntityProps,
 } from 'src/domain/users/entities/user-entity';
 import { IUserRepository } from 'src/domain/users/repositories/user.repository';
+import { UserRequestDto } from 'src/modules/users/dtos/requests/user-request.dto';
+import { CreateUserUseCase } from 'src/modules/users/usecases/create.usecase';
 
 @Injectable()
 export class UsersService {
   constructor(private repository: IUserRepository) {}
 
-  async create() {
-    const p: UserEntityProps = { name: 'a', email: 'a', password: 's' };
-    const e1 = new UserEntity(p);
-    return await this.repository.create(e1);
+  async create(data: UserRequestDto) {
+    const usecase = new CreateUserUseCase.UseCase(this.repository);
+    return await usecase.execute(data);
   }
 }

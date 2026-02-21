@@ -4,6 +4,7 @@ import { AppQuery } from 'src/common/utils/app-queries/app-query';
 import { UserEntity } from 'src/domain/users/entities/user-entity';
 import { IUserRepository } from 'src/domain/users/repositories/user.repository';
 import { PrismaService } from 'src/modules/shared/prisma/prisma.service';
+import { UserPrismaModelMapper } from 'src/modules/users/repositories/user-prisma-model.mapper';
 
 export class UserPrismaRepository implements IUserRepository {
   constructor(private prismaService: PrismaService) {}
@@ -17,12 +18,13 @@ export class UserPrismaRepository implements IUserRepository {
   ): Promise<SearchResult<UserEntity>> {
     throw new Error('Method not implemented.');
   }
+
   async create(item: UserEntity): Promise<UserEntity> {
-    console.log('aqui');
-    const prisma = await this.prismaService.user;
-    1 + 1;
-    throw new Error('Method not implemented.');
+    const model = UserPrismaModelMapper.toModel(item);
+    await this.prismaService.user.create({ data: model });
+    return item;
   }
+
   update(id: string, item: UserEntity): Promise<UserEntity> {
     throw new Error('Method not implemented.');
   }
