@@ -31,9 +31,12 @@ export class UserPrismaRepository implements IUserRepository {
     return item;
   }
 
-  update(id: string, item: UserEntity): Promise<UserEntity> {
-    throw new Error('Method not implemented.');
+  async update(id: string, item: UserEntity): Promise<UserEntity> {
+    const model = UserPrismaModelMapper.toModel(item);
+    await this.prismaService.user.update({ where: { id }, data: model });
+    return item;
   }
+
   delete(id: string): Promise<UserEntity> {
     throw new Error('Method not implemented.');
   }

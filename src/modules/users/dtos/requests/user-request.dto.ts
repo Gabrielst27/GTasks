@@ -20,18 +20,6 @@ export class UserRequestDto {
   @ApiProperty({ description: 'Nome do usuário' })
   name: string;
 
-  @IsNotEmpty({ message: 'O email não pode estar vazio' })
-  @IsEmail({}, { message: 'O email deve estar formatado como email' })
-  @ApiProperty({ description: 'Email do usuário' })
-  email: string;
-
-  @IsNotEmpty({ message: 'A senha não pode estar vazia' })
-  @IsString({ message: 'A senha deve ser do tipo string' })
-  @MinLength(6, { message: 'A senha deve conter pelo menos 6 caracteres' })
-  @MaxLength(64, { message: 'A senha pode conter no máximo 64 caracteres' })
-  @ApiProperty({ description: 'Senha do usuário' })
-  password: string;
-
   @IsOptional()
   @IsUrl({}, { message: 'O avatar deve ser uma url' })
   @ApiProperty({
