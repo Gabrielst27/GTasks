@@ -19,9 +19,12 @@ export class UserEntity extends Entity<UserEntityProps> {
 
   updateProps(partialProps: Partial<UserEntityProps>): UserEntity {
     //TODO: Create user entity validation
-    const props = {
-      ...this.props,
-      ...partialProps,
+    const props: UserEntityProps = {
+      name: partialProps.name ?? this.props.name,
+      email: partialProps.email ?? this.props.email,
+      password: partialProps.password ?? this.props.password,
+      avatar: partialProps.avatar ?? this.props.avatar,
+      role: partialProps.role ?? this.props.role,
     };
     super.updateProps(props);
     return this;

@@ -21,6 +21,7 @@ export namespace CreateProjectUseCase {
       if (!name) {
         throw new BadRequestException('Dados inválidos');
       }
+      //TODO: Check if user exists
       const entity = new ProjectEntity(input);
       const result = await this.repository.create(entity);
       return ProjectResponse.Mapper.toResponse(result);

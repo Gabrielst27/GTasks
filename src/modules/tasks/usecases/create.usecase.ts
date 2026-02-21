@@ -23,6 +23,7 @@ export namespace CreateTaskUseCase {
       if (!title || !projectId || !assigneeId) {
         throw new BadRequestException('Dados inválidos');
       }
+      //TODO: Check if user exists
       const task = new TaskEntity(input);
       const result = await this.repository.create(task);
       return TaskResponse.Mapper.toResponse(result);

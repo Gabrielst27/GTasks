@@ -5,9 +5,10 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [ProjectsModule, SharedModule, ConfigModule.forRoot(), TasksModule],
+  imports: [ProjectsModule, SharedModule, ConfigModule.forRoot(), TasksModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
